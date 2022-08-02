@@ -1,22 +1,6 @@
 const { species, hours } = require('../data/zoo_data');
 const data = require('../data/zoo_data');
 
-// const days = {
-//   Tuesday: {officeHour: '', exhibition: []},
-//   Wednesday: {officeHour: '', exhibition: []},
-//   Thursday: {officeHour: '', exhibition: []},
-//   Friday: {officeHour: '', exhibition: []},
-//   Saturday: {officeHour: '', exhibition: []},
-//   Sunday: {officeHour: '', exhibition: []},
-//   Monday: {officeHour: '', exhibition: []},
-// };
-
-function opneHcloseH(day, openClose) {
-  if (openClose === 'open') {
-    return data.hours[day].open;
-  }
-  return data.hours[day].close;
-}
 function exhibitionAvailability(dia) {
   const spiciesAvalible = species.reduce((array, animal) => {
     if (animal.availability.includes(dia)) {
@@ -28,15 +12,17 @@ function exhibitionAvailability(dia) {
   return spiciesAvalible;
 }
 function generalSchedule(arrayDeDias) {
-  const schadule = arrayDeDias.reduce((objeto, dia) => {
-    if (dia === 'Monday') {
-      objeto[dia] = { officeHour: 'CLOSED', exhibition: 'The zoo will be closed!' };
+  const objeto = {};
+  arrayDeDias.forEach((day) => {
+    if (day === 'Monday') {
+      objeto[day] = { officeHour: 'CLOSED', exhibition: 'The zoo will be closed!' };
       return objeto;
     }
-    objeto[dia] = { officeHour: `Open from ${opneHcloseH(dia, 'open')}am until ${opneHcloseH(dia, 'close')}pm`, exhibition: exhibitionAvailability(dia) };
+    objeto[day] = { officeHour: `Open from ${hours[day].open}am until ${hours[day].close}pm`,
+      exhibition: exhibitionAvailability(day) };
     return objeto;
-  }, {});
-  return schadule;
+  });
+  return objeto;
 }
 function daySchadule(dia) {
   const schadule = {};
@@ -44,7 +30,8 @@ function daySchadule(dia) {
     schadule[dia] = { officeHour: 'CLOSED', exhibition: 'The zoo will be closed!' };
     return schadule;
   }
-  schadule[dia] = { officeHour: `Open from ${opneHcloseH(dia, 'open')}am until ${opneHcloseH(dia, 'close')}pm`, exhibition: exhibitionAvailability(dia) };
+  schadule[dia] = { officeHour: `Open from ${hours[dia].open}am until ${hours[dia].close}pm`,
+    exhibition: exhibitionAvailability(dia) };
   return schadule;
 }
 function scheduleByName(animalName) {
@@ -63,5 +50,6 @@ function getSchedule(scheduleTarget) {
   }
   return generalSchedule(days);
 }
-
+const days = ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday'];
+console.log(generalSchedule(days));
 module.exports = getSchedule;

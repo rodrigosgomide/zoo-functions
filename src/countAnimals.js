@@ -1,33 +1,34 @@
 const { species } = require('../data/zoo_data');
 const data = require('../data/zoo_data');
 
-const createObject = (obj, chave, valor) => obj[chave] = valor;
+function getEveryAnimals() {
+  const everyAnimal = {};
+  species.forEach((element) => {
+    everyAnimal[element.name] = element.residents.length;
+  });
+  return everyAnimal;
+}
+
+function getAnimal(obj) {
+  const name = obj.specie;
+  return species.find((animal) => animal.name === name).residents.length;
+}
+
+function getAnimalbySex(obj) {
+  const { specie, sex } = obj;
+  console.log(specie, sex);
+  return species.find((animal) => animal.name === specie)
+    .residents.filter((animalSex) => animalSex.sex === sex).length;
+}
 
 function countAnimals(animal) {
   if (!animal) {
-    const everyAnimal = {};
-    species.forEach((element) => {
-      createObject(everyAnimal, element.name, element.residents.length);
-    });
-    return everyAnimal;
+    return getEveryAnimals();
   }
-
-  const [key, key2] = Object.keys(animal);
-  if (key === 'specie' && !key2) {
-    const { specie } = animal;
-    const animalsNumber = species.find((element) => element.name === specie).residents;
-    return Object.keys(animalsNumber).length;
+  if (Object.keys(animal).length > 1) {
+    return getAnimalbySex(animal);
   }
-
-  if (key === 'specie' && key2 === 'sex') {
-    const { specie, sex } = animal;
-    const animalsNumber = species.find((element) => element.name === specie).residents;
-    return animalsNumber.filter((element) => element.sex === sex).length;
-  }
+  return getAnimal(animal);
 }
-
-// const getAnimalsCount = ({ specie, sex }) => species.find((animalSpecie) => animalSpecie.name === specie).residents.filter((animal) => sex ? animal.sex === sex : animal).length
-// const getAllAnimals = () => species.reduce((acc, specie) => Object.assign(acc, { [specie.name]: specie.residents.length }), {})
-// const countAnimals = (animal) => animal ? getAnimalsCount(animal) : getAllAnimals()
 
 module.exports = countAnimals;
