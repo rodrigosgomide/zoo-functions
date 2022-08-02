@@ -1,13 +1,6 @@
 const { employees, species } = require('../data/zoo_data');
 const data = require('../data/zoo_data');
 
-const creatObj = (id, fullName, species, locations) => ({
-  id,
-  fullName,
-  species,
-  locations,
-});
-
 function findEmploye(param) {
   const emp = Object.values(param)[0];
   return employees.find((e) => e.firstName === emp || e.lastName === emp || e.id === emp);
@@ -50,10 +43,10 @@ function isValid(obj) {
 
 function getEmployeesCoverage(employeData) {
   if (!employeData) {
-    return employees.map((employe) => {
-      const animalName = returnSpecies(employe);
-      const location = returnLocation(employe);
-      return creatObj(employe.id, `${employe.firstName} ${employe.lastName}`, animalName, location);
+    return employees.map((e) => {
+      const aN = returnSpecies(e);
+      const l = returnLocation(e);
+      return { id: e.id, fullName: `${e.firstName} ${e.lastName}`, species: aN, locations: l };
     });
   }
 
@@ -61,10 +54,10 @@ function getEmployeesCoverage(employeData) {
     throw new Error('Informações inválidas');
   }
 
-  const employe = findEmploye(employeData);
-  const animalName = returnSpecies(employe);
-  const location = returnLocation(employe);
-  return creatObj(employe.id, `${employe.firstName} ${employe.lastName}`, animalName, location);
+  const e = findEmploye(employeData);
+  const aN = returnSpecies(e);
+  const l = returnLocation(e);
+  return { id: e.id, fullName: `${e.firstName} ${e.lastName}`, species: aN, locations: l };
 }
 
 module.exports = getEmployeesCoverage;
