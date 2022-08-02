@@ -41,4 +41,19 @@ describe('Testes da função getOpeningHours', () => {
     expect(getOpeningHours('Wednesday', '08:30-am')).toEqual(expected);
     expect(getOpeningHours('Thursday', '11:00-am')).toEqual(expected);
   });
+
+  it('Testa se ao passar uma string no lugar da hora retorna "The hour should represent a number"', () => {
+    const expected = 'The hour should represent a number';
+    expect(() => getOpeningHours('Tuesday', 'aa:00-pm')).toThrow(expected);
+  });
+
+  it('Testa se ao passar uma string no lugar do minuto retorna "The minutes should represent a number"', () => {
+    const expected = 'The minutes should represent a number';
+    expect(() => getOpeningHours('Tuesday', '11:aa-pm')).toThrow(expected);
+  });
+
+  it('Testa se ao passar uma abreviation difertente de AM/PM "The minutes should represent a number"', () => {
+    const expected = 'The abbreviation must be \'AM\' or \'PM\'';
+    expect(() => getOpeningHours('Tuesday', '10:00-xm')).toThrow(expected);
+  });
 });
