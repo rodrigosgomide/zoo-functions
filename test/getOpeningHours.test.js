@@ -1,4 +1,3 @@
-const { internet } = require('faker/lib/locales/en');
 const getOpeningHours = require('../src/getOpeningHours');
 
 describe('Testes da função getOpeningHours', () => {
