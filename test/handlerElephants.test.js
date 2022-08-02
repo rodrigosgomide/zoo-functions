@@ -54,4 +54,10 @@ describe('Testes da função HandlerElephants', () => {
       expect(result).toBe(expected);
     }
   });
+
+  it('Testa se ao passar uma string como parametro e a string seja invalida retorna "null"', () => {
+    const expected = null;
+    const result = handlerElephants('teste');
+    expect(result).toBe(expected);
+  });
 });
