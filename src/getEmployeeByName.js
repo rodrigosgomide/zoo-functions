@@ -2,11 +2,11 @@ const { species } = require('../data/zoo_data');
 const data = require('../data/zoo_data');
 
 function getEmployeeByName(employeeName) {
-  const funcionarios = data.employees
+  const emp = data.employees;
   if (!employeeName) {
-    return {}
+    return {};
   }
-  return funcionarios.find(element => element.firstName === employeeName || element.lastName === employeeName)
+  return emp.find((e) => e.firstName === employeeName || e.lastName === employeeName);
 }
 console.log(getEmployeeByName());
 module.exports = getEmployeeByName;

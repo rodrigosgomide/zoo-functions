@@ -11,61 +11,57 @@ const data = require('../data/zoo_data');
 //   Monday: {officeHour: '', exhibition: []},
 // };
 
-
-function opneHcloseH (day, openClose) {
+function opneHcloseH(day, openClose) {
   if (openClose === 'open') {
-   return data.hours[day].open
+    return data.hours[day].open;
   }
-  return data.hours[day].close
+  return data.hours[day].close;
 }
 function exhibitionAvailability(dia) {
- 
-    const spiciesAvalible = species.reduce((array, animal) => {
-      if (animal.availability.includes(dia)) {
-        array.push(animal.name)
-        return array
-      }
-      return array
-    },[])
-    return spiciesAvalible
+  const spiciesAvalible = species.reduce((array, animal) => {
+    if (animal.availability.includes(dia)) {
+      array.push(animal.name);
+      return array;
+    }
+    return array;
+  }, []);
+  return spiciesAvalible;
 }
 function generalSchedule(arrayDeDias) {
-
   const schadule = arrayDeDias.reduce((objeto, dia) => {
-    if (dia === "Monday") {
-      objeto[dia] = {officeHour: 'CLOSED',  exhibition: 'The zoo will be closed!'}
-      return objeto
+    if (dia === 'Monday') {
+      objeto[dia] = { officeHour: 'CLOSED', exhibition: 'The zoo will be closed!' };
+      return objeto;
     }
-    objeto[dia] = {officeHour: `Open from ${opneHcloseH(dia, 'open')}am until ${opneHcloseH(dia, 'close')}pm`,  exhibition: exhibitionAvailability(dia)}
-    return objeto
-  },{})
-  return schadule
+    objeto[dia] = { officeHour: `Open from ${opneHcloseH(dia, 'open')}am until ${opneHcloseH(dia, 'close')}pm`, exhibition: exhibitionAvailability(dia) };
+    return objeto;
+  }, {});
+  return schadule;
 }
 function daySchadule(dia) {
-  const schadule = {}
-  if(dia === 'Monday') {
-    schadule[dia] = {officeHour: 'CLOSED', exhibition: 'The zoo will be closed!'}
-    return schadule
+  const schadule = {};
+  if (dia === 'Monday') {
+    schadule[dia] = { officeHour: 'CLOSED', exhibition: 'The zoo will be closed!' };
+    return schadule;
   }
-  schadule[dia] = {officeHour: `Open from ${opneHcloseH(dia, 'open')}am until ${opneHcloseH(dia, 'close')}pm` , exhibition: exhibitionAvailability(dia)}
-  return schadule
+  schadule[dia] = { officeHour: `Open from ${opneHcloseH(dia, 'open')}am until ${opneHcloseH(dia, 'close')}pm`, exhibition: exhibitionAvailability(dia) };
+  return schadule;
 }
 function scheduleByName(animalName) {
-  return species.find((animal) => animal.name === animalName).availability
+  return species.find((animal) => animal.name === animalName).availability;
 }
 
 function getSchedule(scheduleTarget) {
-  const animalsName = species.map((animal) => animal.name)
-  const days = ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday']
+  const animalsName = species.map((animal) => animal.name);
+  const days = ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday'];
 
-  if(animalsName.includes(scheduleTarget)) {
-    return scheduleByName(scheduleTarget)
+  if (animalsName.includes(scheduleTarget)) {
+    return scheduleByName(scheduleTarget);
   }
-  if(days.includes(scheduleTarget)) {
-    return daySchadule(scheduleTarget)
+  if (days.includes(scheduleTarget)) {
+    return daySchadule(scheduleTarget);
   }
-    return generalSchedule(days)
+  return generalSchedule(days);
 }
 
 module.exports = getSchedule;
-

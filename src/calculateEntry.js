@@ -1,48 +1,46 @@
 const en = require('faker/lib/locales/en');
 const data = require('../data/zoo_data');
 
-const entrantsa = [
-	{ name:  'Lara Carvalho', age:  5 },
-	{ name:  'Frederico Moreira', age:  5 },
-	{ name:  'Pedro Henrique Carvalho', age:  5 },
-	{ name:  'Maria Costa', age:  18 },
-	{ name:  'Núbia Souza', age:  18 },
-	{ name:  'Carlos Nogueira', age:  50 },
-];
-  // < 18 child
-  // >= 18 < 50 adult
-  // >= 50 senior
-
-function countEntrants(entrants) {
-  if(!entrants || Object.entries(entrants).length === 0) {
-    return 0
+function countChild(arr) {
+  let child = 0;
+  arr.forEach((p) => {
+    if (p.age < 18) {
+      child += 1;
+    }
+  });
+  return child;
+}
+function countAdult(arr) {
+  let adult = 0;
+  arr.forEach((p) => {
+    if (p.age >= 18 && p.age < 50) {
+      adult += 1;
+    }
+  });
+  return adult;
+}
+function countSenior(arr) {
+  let senior = 0;
+  arr.forEach((p) => {
+    if (p.age >= 50) {
+      senior += 1;
+    }
+  });
+  return senior;
+}
+function countEntrants(e) {
+  if (!e || Object.entries(e).length === 0) {
+    return 0;
   }
-  return entrants.reduce((objeto, person) => {
-    if (person.age < 18) {
-      objeto.child += 1
-      return objeto
-    }
-    if (person.age >= 18 && person.age < 50) {
-      objeto.adult += 1
-      return objeto
-    }
-    if (person.age >= 50) {
-      objeto.senior += 1
-      return objeto
-    }
-    return objeto
-  }, { child: 0, adult: 0, senior: 0 })
+  return { child: countChild(e), adult: countAdult(e), senior: countSenior(e) };
 }
 
-function calculateEntry(entrants) {
-  if(!entrants || Object.entries(entrants).length === 0) {
-    return 0
+function calculateEntry(e) {
+  if (!e || Object.entries(e).length === 0) {
+    return 0;
   }
-  const child = countEntrants(entrants).child
-  const adult = countEntrants(entrants).adult
-  const senior = countEntrants(entrants).senior
-  const valorTotal = (child * 20.99) + (adult * 49.99) + (senior * 24.99)
-  return valorTotal
+  const valorTotal = (countChild(e) * 20.99) + (countAdult(e) * 49.99) + (countSenior(e) * 24.99);
+  return valorTotal;
 }
 
 module.exports = { calculateEntry, countEntrants };
