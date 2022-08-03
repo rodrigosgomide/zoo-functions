@@ -56,4 +56,14 @@ describe('Testes da função getOpeningHours', () => {
     const expected = 'The abbreviation must be \'AM\' or \'PM\'';
     expect(() => getOpeningHours('Tuesday', '10:00-xm')).toThrow(expected);
   });
+
+  it('testa o retorno da função nos seguintes senário', () => {
+    const expected = 'The zoo is closed';
+    const result = getOpeningHours('Tuesday', '12:12-am');
+    expect(result).toBe(expected);
+
+    const expected2 = 'The zoo is open';
+    const result2 = getOpeningHours('Tuesday', '12:12-pm');
+    expect(result2).toBe(expected2);
+  });
 });
